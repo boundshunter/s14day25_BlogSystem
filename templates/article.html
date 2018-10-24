@@ -1,0 +1,62 @@
+{% load filter %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .condition a{
+            display: inline-block;
+            padding: 3px 5px;
+            border: 1px solid #dddddd;
+            margin: 5px 5px;
+        }
+        .condition a.active{
+            background-color: brown;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="condition">
+    {% csrf_token %}
+    <h1>筛选条件</h1>
+    <div>
+        {% filter_all kwargs_dict 'article_type_id' %}
+{#    {% if kwargs_dict.article_type_id == 0 %}#}
+{#        <a class="active" href="/article-0-{{ kwargs_dict.category_id }}.html">全部</a>#}
+{#    {% else %}#}
+{#        <a href="/article-0-{{ kwargs_dict.category_id }}.html">全部</a>#}
+{#    {% endif %}#}
+        {% filter_article_type_list article_type_list kwargs_dict %}
+{#    {% for atel in article_type_list %}#}
+{#        {% if kwargs_dict.article_type_id == atel.id %}#}
+{#            <a class="active" href="/article-{{ atel.id }}-{{ kwargs_dict.category_id }}.html">{{ atel.caption }}</a>#}
+{#        {% else %}#}
+{#            <a  href="/article-{{ atel.id }}-{{ kwargs_dict.category_id }}.html">{{ atel.caption }}</a>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+    </div>
+    <div>
+        {% filter_all kwargs_dict 'category_id' %}
+{#    {% if kwargs_dict.category_id == 0 %}#}
+{#        <a class="active" href="/article-{{ kwargs_dict.article_type_id }}-0.html">全部</a>#}
+{#    {% else %}#}
+{#        <a href="/article-{{ kwargs_dict.article_type_id }}-0.html">全部</a>#}
+{#    {% endif %}#}
+        {% filter_category_list category_list kwargs_dict %}
+{#     {% for ctgy in category_list %}#}
+{#        {% if kwargs_dict.category_id == ctgy.id %}#}
+{#            <a class="active" href="/article-{{ kwargs_dict.article_type_id }}-{{ ctgy.id }}.html">{{ ctgy.caption }}</a>#}
+{#        {% else %}#}
+{#            <a  href="/article-{{ kwargs_dict.article_type_id }}-{{ ctgy.id }}.html">{{ ctgy.caption }}</a>#}
+{#        {% endif %}#}
+{#    {% endfor %}#}
+    </div>
+    <h1>查询结果</h1>
+    {% for row in result %}
+        <li>{{ row.id }}-{{ row.title }}-{{ row.content }}</li>
+    {% endfor %}
+    </div>
+</body>
+</html>
